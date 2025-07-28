@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Моё мини-приложение</title>
+  <!-- Подключаем Telegram SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 40px;
+      background: #f4f6f8;
+      color: #2c3e50;
+    }
+    h1 {
+      color: #3498db;
+    }
+    .user-info {
+      margin: 20px;
+      padding: 15px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Добро пожаловать!</h1>
+  <div class="user-info" id="info">
+    Загрузка...
+  </div>
+  <button onclick="closeApp()">Закрыть приложение</button>
+
+  <script>
+    // Функция, которая выполняется при запуске
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = Telegram.WebApp.initDataUnsafe.user;
+
+      if (user) {
+        document.getElementById('info').innerHTML = `
+          <p><strong>Привет, ${user.first_name}!</strong></p>
+          <p>Ты открыл своё первое мини-приложение в Telegram 🎉</p>
+          ${user.username ? `<p>Твой юзернейм: @${user.username}</p>` : ''}
+        `;
+      } else {
+        document.getElementById('info').innerHTML = `
+          <p>Привет, пользователь! Не удалось получить данные.</p>
+        `;
+      }
+
+      // Расширим экран
+      Telegram.WebApp.expand();
+    });
+
+    // Функция закрытия
+    function closeApp() {
+      Telegram.WebApp.close();
+    }
+  </script>
+</body>
+</html>
